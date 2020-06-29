@@ -1,2 +1,3 @@
 rootProject.name='clean-architecture_sample'
 include ':app'
+include ':domain'
