@@ -2,6 +2,7 @@ package com.example.clean_architecture_sample
 
 import androidx.multidex.MultiDexApplication
 import androidx.room.Room
+import com.example.data.Database
 import com.example.data.FatDatabase
 import com.example.data.repositoryImpl.FatRepositoryImpl
 import com.example.data.store.FatLocalDataStore
@@ -15,11 +16,13 @@ import org.koin.dsl.module
 
 class DietApplication : MultiDexApplication() {
 
-    /*
     private val appModule = module {
+        /*
         scope<MainActivity>() {
             scoped { FatUseCase(get()) }
         }
+         */
+        single { FatUseCase(get()) }
     }
 
     private val domainModule = module {
@@ -27,25 +30,16 @@ class DietApplication : MultiDexApplication() {
         single<FatRepository> {
             FatRepositoryImpl(
                 FatLocalDataStore(
-                    Room.databaseBuilder(
-                        applicationContext,
-                        FatDatabase::class.java,
-                        "database-name"
-                    ).build()
+                    Database.getInstance(applicationContext)
                 ))
         }
     }
-    */
-
 
     override fun onCreate() {
         super.onCreate()
-        /*
         startKoin {
             androidContext(applicationContext)
             modules(listOf(appModule, domainModule))
         }
-        */
-
     }
 }

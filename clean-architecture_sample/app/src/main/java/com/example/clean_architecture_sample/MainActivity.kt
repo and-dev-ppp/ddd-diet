@@ -1,6 +1,7 @@
 package com.example.clean_architecture_sample
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.room.Room
@@ -23,17 +24,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     //private val viewModel: TopViewModel by inject()
-    //private val fatUseCase by lifecycleScope.inject<FatUseCase>()
+    private val fatUseCase by inject<FatUseCase>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        //fatUseCase.insert(75F)
-        //binding.viewModel = viewModel
-        //binding.lifecycleOwner = this
+        CoroutineScope(Dispatchers.IO).launch {
+            fatUseCase.insert(75F)
+            Log.d("aaaa", "111111!!!!!!!!!!!!!!!!!")
+        }
 
+        Log.d("aaaa", "222222!!!!!!!!!!!!!!!!!")
+        //binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        /*
         CoroutineScope(Dispatchers.IO).launch {
             Database.getInstance(applicationContext).fatDao().insertFatEntity(FatEntity(id = 0, createDate = Date().time, updateDate = Date().time, weight = 75F))
         }
+         */
     }
 }
